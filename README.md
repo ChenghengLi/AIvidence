@@ -334,26 +334,32 @@ Special thanks to UPC Manresa for hosting the 3rd MERIThON Competition, and to a
 ## 👥 The Minds Behind AIvidence
 
 <div align="center">
-<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px;">
-  <div style="text-align: center; width: 200px;">
-    <img src="https://img.shields.io/badge/Team_Leader-Chengheng_Li_Chen-blue?style=for-the-badge" alt="Team Leader"/>
-    <p><a href="https://www.linkedin.com/in/chengheng-li-8b14641ba/">LinkedIn Profile</a></p>
-  </div>
-  <div style="text-align: center; width: 200px;">
-    <img src="https://img.shields.io/badge/Member-Xu_Yao_Chen-green?style=for-the-badge" alt="Team Member"/>
-    <p><a href="https://www.linkedin.com/in/xu-yao-140059231/">LinkedIn Profile</a></p>
-  </div>
-  <div style="text-align: center; width: 200px;">
-    <img src="https://img.shields.io/badge/Member-Zhiqian_Zhou-green?style=for-the-badge" alt="Team Member"/>
-    <p><a href="https://www.linkedin.com/in/zhiqian-zhou-196350300/">LinkedIn Profile</a></p>
-  </div>
-  <div style="text-align: center; width: 200px;">
-    <img src="https://img.shields.io/badge/Member-Zhihao_Chen-green?style=for-the-badge" alt="Team Member"/>
-    <p><a href="https://www.linkedin.com/in/zhihao-chen-584aa52b5/">LinkedIn Profile</a></p>
-  </div>
-  <div style="text-align: center; width: 200px;">
-    <img src="https://img.shields.io/badge/Member-Pengcheng_Chen-green?style=for-the-badge" alt="Team Member"/>
-    <p><a href="https://www.linkedin.com/in/pengcheng-chen-153612317/">LinkedIn Profile</a></p>
-  </div>
-</div>
+  
+<!-- Team Members -->
+<p>
+  <a href="https://www.linkedin.com/in/chengheng-li-8b14641ba/">
+    <img src="https://img.shields.io/badge/⭐_Chengheng_Li_Chen-LinkedIn-%23D4AF37?style=for-the-badge&logo=linkedin&logoColor=white" alt="Chengheng Li Chen (Team Leader)"/>
+  </a>
+</p>
+
+<p>
+  <a href="https://www.linkedin.com/in/xu-yao-140059231/">
+    <img src="https://img.shields.io/badge/Xu_Yao_Chen-LinkedIn-%2300a0dc?style=for-the-badge&logo=linkedin&logoColor=white" alt="Xu Yao Chen"/>
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://www.linkedin.com/in/zhiqian-zhou-196350300/">
+    <img src="https://img.shields.io/badge/Zhiqian_Zhou-LinkedIn-%2300a0dc?style=for-the-badge&logo=linkedin&logoColor=white" alt="Zhiqian Zhou"/>
+  </a>
+</p>
+
+<p>
+  <a href="https://www.linkedin.com/in/zhihao-chen-584aa52b5/">
+    <img src="https://img.shields.io/badge/Zhihao_Chen-LinkedIn-%2300a0dc?style=for-the-badge&logo=linkedin&logoColor=white" alt="Zhihao Chen"/>
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://www.linkedin.com/in/pengcheng-chen-153612317/">
+    <img src="https://img.shields.io/badge/Pengcheng_Chen-LinkedIn-%2300a0dc?style=for-the-badge&logo=linkedin&logoColor=white" alt="Pengcheng Chen"/>
+  </a>
+</p>
+
 </div>
