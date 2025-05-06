@@ -1,0 +1,1 @@
+"""Core functionality of the fact check tool."""
