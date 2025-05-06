@@ -1,10 +1,15 @@
 <div align="center">
 
-![AIvidence Logo](https://img.shields.io/badge/AIvidence-Fighting%20Misinformation-red?style=for-the-badge)
+# 🛡️ AIvidence: Fighting Misinformation 🔍
+  
+![AIvidence Logo](https://img.shields.io/badge/✓-AIVIDENCE-cc8800?style=for-the-badge&labelColor=800000)
 
-[![Python Version](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Award](https://img.shields.io/badge/Award-MERIThON%20Winner-gold.svg)](https://www.upc.edu/en)
+<p>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.11+-2E64FE.svg?style=flat-square&logo=python&logoColor=white" alt="Python Version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-32CD32.svg?style=flat-square&logo=opensourceinitiative&logoColor=white" alt="License"></a>
+  <a href="https://www.upc.edu/en"><img src="https://img.shields.io/badge/🏆_MERIThON-Winner-FFD700.svg?style=flat-square" alt="Award"></a>
+  <img src="https://img.shields.io/badge/Version-1.0.0-2f4f4f.svg?style=flat-square" alt="Version">
+</p>
 
 <br>
 
@@ -278,9 +283,9 @@ if __name__ == '__main__':
 
 ## 📊 How It Works
 
-<div align="center">
+
 ![Imagen de WhatsApp 2025-05-06 a las 22 26 06_dc0fd611](https://github.com/user-attachments/assets/9323a383-8a87-4d96-ab00-f3b882a5a4d6)
-</div>
+
 
 ## 📝 Report Format
 
