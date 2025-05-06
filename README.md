@@ -1,5 +1,3 @@
-# AIvidence
-
 <div align="center">
 
 ![AIvidence Logo](https://img.shields.io/badge/AIvidence-Fighting%20Misinformation-red?style=for-the-badge)
@@ -281,8 +279,7 @@ if __name__ == '__main__':
 ## 📊 How It Works
 
 <div align="center">
-
-
+![Imagen de WhatsApp 2025-05-06 a las 22 26 06_dc0fd611](https://github.com/user-attachments/assets/9323a383-8a87-4d96-ab00-f3b882a5a4d6)
 </div>
 
 ## 📝 Report Format
