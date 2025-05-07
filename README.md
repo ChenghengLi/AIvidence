@@ -11,6 +11,12 @@
   <img src="https://img.shields.io/badge/Version-1.0.0-2f4f4f.svg?style=flat-square" alt="Version">
 </p>
 
+<p>
+  <a href="https://chenghengli.github.io/AIvidence">
+    <img src="https://img.shields.io/badge/Documentation-Read%20Now-4B32C3.svg?style=for-the-badge&logo=bookstack&logoColor=white" alt="Documentation">
+  </a>
+</p>
+
 <br>
 
 ***When control +c/v spreads misinformation, we fight back with control + AIvidence***
