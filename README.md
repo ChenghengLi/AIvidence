@@ -55,7 +55,7 @@ AIvidence is an advanced fact-checking platform that analyzes digital content fo
 
 ```bash
 # Clone and enter repository
-git clone https://github.com/yourusername/AIvidence.git
+git clone https://github.com/ChenghengLi/AIvidence
 cd AIvidence/aividence
 
 # Set up virtual environment
