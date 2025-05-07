@@ -122,8 +122,6 @@ class ClaimExtractor:
         Focus on the most important and potentially problematic claims. Include both:
         - Claims that seem questionable or might be misinformation
         - Important factual claims that should be verified even if they seem correct
-
-        GIVE ME ONLY 5 CLAIMS TO CHECK, NO MORE.
         """
         
         topic = domain_analysis.get("topic", "Unknown")
