@@ -9,7 +9,7 @@ load_dotenv()
 
 # Set up logging
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.INFO if os.environ.get("VERBOSE", "0") != "1" else logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger("AIvidence")
@@ -17,7 +17,15 @@ logger = logging.getLogger("AIvidence")
 # API keys from environment variables
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
-BRAVE_API_KEY = os.environ.get("BRAVE_API_KEY", "123")  # Default placeholder for development
+BRAVE_API_KEY = os.environ.get("BRAVE_API_KEY")
+
+# Check for required API keys
+if not OPENAI_API_KEY:
+    logger.warning("OpenAI API key not set. Some functionality may be limited.")
+if not ANTHROPIC_API_KEY:
+    logger.warning("Anthropic API key not set. Some functionality may be limited.")
+if not BRAVE_API_KEY:
+    logger.warning("Brave Search API key not set. Web search functionality will be limited.")
 
 # Default user agent for requests
 DEFAULT_USER_AGENT = (
@@ -53,6 +61,26 @@ BRAVE_SEARCH_RETRY_DELAY = 10
 CONTENT_SCRAPER_TIMEOUT = 30
 
 # Default LLM configuration
-DEFAULT_MODEL_NAME = "gpt-3.5-turbo"
+DEFAULT_MODEL_NAME = os.environ.get("MODEL_NAME", "gpt-4o-mini")  # Updated default from .env
 DEFAULT_TEMPERATURE = 0.1
-DEFAULT_MAX_CLAIMS = 5
+DEFAULT_MAX_CLAIMS = int(os.environ.get("MAX_CLAIMS", 5))  # Get from .env or use default
+
+# Verbose logging
+VERBOSE = os.environ.get("VERBOSE", "0") == "1"  # Convert string to boolean
+
+# Additional configuration options
+# These can be expanded as needed based on future .env settings
+def get_config_summary():
+    """Return a summary of the current configuration for logging purposes."""
+    return {
+        "Model": DEFAULT_MODEL_NAME,
+        "Max Claims": DEFAULT_MAX_CLAIMS,
+        "Verbose": VERBOSE,
+        "OpenAI API Key": "Set" if OPENAI_API_KEY else "Not Set",
+        "Anthropic API Key": "Set" if ANTHROPIC_API_KEY else "Not Set",
+        "Brave API Key": "Set" if BRAVE_API_KEY else "Not Set"
+    }
+
+# Log configuration on import
+if VERBOSE:
+    logger.debug(f"Configuration loaded: {get_config_summary()}")
