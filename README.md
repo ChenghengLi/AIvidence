@@ -350,6 +350,9 @@ Special thanks to UPC Manresa for hosting the 3rd MERIThON Competition, and to a
   <a href="https://www.linkedin.com/in/zhiqian-zhou-196350300/">
     <img src="https://img.shields.io/badge/Zhiqian_Zhou-LinkedIn-%2300a0dc?style=for-the-badge&logo=linkedin&logoColor=white" alt="Zhiqian Zhou"/>
   </a>
+</p>
+
+<p>
   <a href="https://www.linkedin.com/in/zhihao-chen-584aa52b5/">
     <img src="https://img.shields.io/badge/Zhihao_Chen-LinkedIn-%2300a0dc?style=for-the-badge&logo=linkedin&logoColor=white" alt="Zhihao Chen"/>
   </a>
