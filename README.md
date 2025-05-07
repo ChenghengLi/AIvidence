@@ -249,7 +249,7 @@ from flask import Flask, request, jsonify
 from aividence.core.fact_check_engine import FactCheckEngine
 
 app = Flask(__name__)
-engine = FactCheckEngine(model_name="gpt-4o-mini")
+engine = FactCheckEngine(model_name="gpt-4o-mini", api_key = "your-api-key")
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
