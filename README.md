@@ -56,7 +56,7 @@ AIvidence is an advanced fact-checking platform that analyzes digital content fo
 ```bash
 # Clone and enter repository
 git clone https://github.com/ChenghengLi/AIvidence
-cd AIvidence/aividence
+cd AIvidence
 
 # Set up virtual environment
 python -m venv venv
@@ -194,7 +194,7 @@ For developers looking to integrate AIvidence into their applications, our Pytho
 from aividence.core.fact_check_engine import FactCheckEngine
 
 # Initialize the engine with the powerful gpt-4o-mini model
-engine = FactCheckEngine(model_name="gpt-4o-mini")
+engine = FactCheckEngine(model_name="gpt-4o-mini", api_key = "your-api-key")
 
 # Analyze a website
 result = engine.analyze_content(
