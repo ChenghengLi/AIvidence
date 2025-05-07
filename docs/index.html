@@ -1,0 +1,1741 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AIvidence Documentation</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <style>
+            :root {
+                --primary-color: #800000;
+                --primary-dark: #600000;
+                --primary-light: #a50000;
+                --secondary-color: #006400;
+                --text-color: #333;
+                --light-bg: #f9f9f9;
+                --border-color: #ddd;
+                --hover-color: #f0f0f0;
+                --code-bg: #f5f5f5;
+                --sidebar-width: 280px;
+            }
+            
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                line-height: 1.6;
+                color: var(--text-color);
+                display: flex;
+                min-height: 100vh;
+                background-color: #fff;
+            }
+            
+            /* Sidebar */
+            .sidebar {
+                width: var(--sidebar-width);
+                background-color: #f0f0f0;
+                height: 100vh;
+                position: fixed;
+                overflow-y: auto;
+                border-right: 1px solid var(--border-color);
+                padding: 20px 0;
+                box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+                z-index: 100;
+            }
+            
+            .sidebar-header {
+                background-color: var(--primary-color);
+                color: white;
+                padding: 15px;
+                text-align: center;
+                font-size: 1.2em;
+                font-weight: bold;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+            
+            .sidebar-content {
+                padding: 15px;
+            }
+            
+            .search-bar {
+                margin-bottom: 20px;
+                position: relative;
+            }
+            
+            .search-bar input {
+                width: 100%;
+                padding: 10px;
+                padding-left: 30px;
+                border: 1px solid var(--border-color);
+                border-radius: 4px;
+                font-size: 14px;
+            }
+            
+            .search-bar .search-icon {
+                position: absolute;
+                left: 10px;
+                top: 12px;
+                color: #888;
+            }
+            
+            /* Tree View */
+            .tree {
+                list-style-type: none;
+                padding-left: 15px;
+            }
+            
+            .tree li {
+                margin: 5px 0;
+            }
+            
+            .folder {
+                cursor: pointer;
+                user-select: none;
+            }
+            
+            .folder-name {
+                display: block;
+                padding: 5px;
+                border-radius: 4px;
+                transition: background-color 0.2s;
+                font-weight: bold;
+                color: var(--primary-color);
+            }
+            
+            .folder-name:hover {
+                background-color: var(--hover-color);
+            }
+            
+            .folder-name i {
+                margin-right: 5px;
+                color: #f9a825;
+            }
+            
+            .class-item {
+                padding: 2px 0;
+            }
+            
+            .class-link {
+                display: block;
+                text-decoration: none;
+                color: var(--text-color);
+                padding: 5px;
+                border-radius: 4px;
+                transition: background-color 0.2s;
+            }
+            
+            .class-link:hover {
+                background-color: var(--hover-color);
+            }
+            
+            .class-link i {
+                margin-right: 5px;
+                color: var(--secondary-color);
+            }
+            
+            /* Main Content */
+            .main-content {
+                flex: 1;
+                margin-left: var(--sidebar-width);
+                padding: 20px;
+                max-width: calc(100% - var(--sidebar-width));
+            }
+            
+            header {
+                background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+                color: white;
+                padding: 30px;
+                margin-bottom: 30px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+            
+            header h1 {
+                margin-bottom: 10px;
+                font-size: 2.4em;
+            }
+            
+            header p {
+                font-size: 1.1em;
+                opacity: 0.9;
+            }
+            
+            /* Modules */
+            .module {
+                margin-bottom: 40px;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                border: 1px solid var(--border-color);
+            }
+            
+            .module-header {
+                background-color: var(--primary-color);
+                color: white;
+                padding: 15px 20px;
+                border-bottom: 1px solid var(--border-dark);
+            }
+            
+            .module-content {
+                padding: 20px;
+                background-color: white;
+            }
+            
+            /* Classes */
+            .class {
+                margin: 25px 0;
+                background-color: var(--light-bg);
+                border-radius: 6px;
+                overflow: hidden;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            }
+            
+            .class-header {
+                background-color: #e9e9e9;
+                padding: 12px 15px;
+                font-weight: bold;
+                border-bottom: 1px solid var(--border-color);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .class-badge {
+                background-color: var(--primary-color);
+                color: white;
+                padding: 3px 8px;
+                border-radius: 12px;
+                font-size: 0.75em;
+                font-weight: normal;
+            }
+            
+            .class-content {
+                padding: 15px;
+            }
+            
+            /* Methods */
+            .method {
+                margin: 15px 0;
+                background-color: white;
+                border-radius: 6px;
+                overflow: hidden;
+                box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+                border-left: 3px solid var(--secondary-color);
+            }
+            
+            .method-header {
+                background-color: #f5f5f5;
+                padding: 10px 15px;
+                font-weight: bold;
+                border-bottom: 1px solid var(--border-color);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .method-type {
+                background-color: var(--secondary-color);
+                color: white;
+                padding: 2px 6px;
+                border-radius: 12px;
+                font-size: 0.7em;
+                font-weight: normal;
+            }
+            
+            .method-content {
+                padding: 15px;
+            }
+            
+            /* Tables */
+            .param-table {
+                margin: 15px 0;
+            }
+            
+            .param-table table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 10px;
+            }
+            
+            .param-table th, .param-table td {
+                padding: 10px;
+                text-align: left;
+                border: 1px solid var(--border-color);
+            }
+            
+            .param-table th {
+                background-color: var(--light-bg);
+                font-weight: 600;
+            }
+            
+            /* Code */
+            pre, code {
+                background-color: var(--code-bg);
+                font-family: 'Consolas', 'Monaco', monospace;
+                border-radius: 4px;
+            }
+            
+            code {
+                padding: 2px 4px;
+                font-size: 0.9em;
+                color: var(--primary-color);
+            }
+            
+            pre {
+                padding: 15px;
+                overflow-x: auto;
+                margin: 15px 0;
+                border: 1px solid #eee;
+            }
+            
+            pre code {
+                padding: 0;
+                background-color: transparent;
+                color: inherit;
+            }
+            
+            .code-example {
+                background-color: #f8f8f8;
+                border: 1px solid #eaeaea;
+            }
+            
+            /* Descriptions */
+            .description {
+                margin-bottom: 20px;
+                line-height: 1.7;
+            }
+            
+            .returns {
+                margin: 15px 0;
+                padding: 10px 15px;
+                background-color: #f8f8f8;
+                border-left: 3px solid #4caf50;
+                border-radius: 4px;
+            }
+            
+            .examples {
+                margin: 15px 0;
+            }
+            
+            /* Signature */
+            .signature {
+                font-family: 'Consolas', 'Monaco', monospace;
+                padding: 8px 12px;
+                background-color: #232323;
+                color: #f8f8f8;
+                border-radius: 4px;
+                overflow-x: auto;
+                margin: 10px 0;
+            }
+            
+            .signature .param {
+                color: #8be9fd;
+            }
+            
+            .signature .keyword {
+                color: #ff79c6;
+            }
+            
+            /* Footer */
+            footer {
+                margin-top: 50px;
+                padding: 25px;
+                background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+                color: white;
+                text-align: center;
+                border-radius: 8px;
+            }
+            
+            /* Responsive */
+            @media (max-width: 1024px) {
+                .sidebar {
+                    width: 240px;
+                }
+                
+                .main-content {
+                    margin-left: 240px;
+                    max-width: calc(100% - 240px);
+                }
+            }
+            
+            @media (max-width: 768px) {
+                body {
+                    flex-direction: column;
+                }
+                
+                .sidebar {
+                    width: 100%;
+                    height: auto;
+                    position: relative;
+                    border-right: none;
+                    border-bottom: 1px solid var(--border-color);
+                }
+                
+                .main-content {
+                    margin-left: 0;
+                    max-width: 100%;
+                }
+            }
+            
+            /* Active navigation item */
+            .class-link.active {
+                background-color: var(--primary-light);
+                color: white;
+            }
+            
+            /* Smooth scrolling */
+            html {
+                scroll-behavior: smooth;
+            }
+            
+            /* Parent class indicator */
+            .parent-class {
+                margin-top: 5px;
+                font-style: italic;
+                color: #666;
+                font-size: 0.9em;
+            }
+
+            /* Back to top button */
+            .back-to-top {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background-color: var(--primary-color);
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                opacity: 0;
+                transition: opacity 0.3s;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                z-index: 99;
+            }
+            
+            .back-to-top.visible {
+                opacity: 1;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sidebar">
+            <div class="sidebar-header">
+                AIvidence
+            </div>
+            <div class="sidebar-content">
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Search classes...">
+                </div>
+                
+                <div class="package-tree">
+                    <ul class='tree'>
+        <li class="folder">
+            <span class="folder-name"><i class="fas fa-folder"></i> core</span>
+            <ul class="tree">
+        
+            <li class="class-item">
+                <a href="#core_fact_check_engine_FactCheckEngine" class="class-link" data-target="core_fact_check_engine_FactCheckEngine">
+                    <i class="fas fa-cube"></i> FactCheckEngine
+                </a>
+            </li>
+            
+            </ul>
+        </li>
+        
+        <li class="folder">
+            <span class="folder-name"><i class="fas fa-folder"></i> agents</span>
+            <ul class="tree">
+        
+            <li class="class-item">
+                <a href="#agents_claim_extractor_ClaimExtractor" class="class-link" data-target="agents_claim_extractor_ClaimExtractor">
+                    <i class="fas fa-cube"></i> ClaimExtractor
+                </a>
+            </li>
+            
+            <li class="class-item">
+                <a href="#agents_claim_verifier_ClaimVerifier" class="class-link" data-target="agents_claim_verifier_ClaimVerifier">
+                    <i class="fas fa-cube"></i> ClaimVerifier
+                </a>
+            </li>
+            
+            <li class="class-item">
+                <a href="#agents_domain_analyzer_DomainAnalyzer" class="class-link" data-target="agents_domain_analyzer_DomainAnalyzer">
+                    <i class="fas fa-cube"></i> DomainAnalyzer
+                </a>
+            </li>
+            
+            </ul>
+        </li>
+        
+        <li class="folder">
+            <span class="folder-name"><i class="fas fa-folder"></i> clients</span>
+            <ul class="tree">
+        
+            <li class="class-item">
+                <a href="#clients_content_scraper_ContentScraper" class="class-link" data-target="clients_content_scraper_ContentScraper">
+                    <i class="fas fa-cube"></i> ContentScraper
+                </a>
+            </li>
+            
+            <li class="class-item">
+                <a href="#clients_model_client_ModelClient" class="class-link" data-target="clients_model_client_ModelClient">
+                    <i class="fas fa-cube"></i> ModelClient
+                </a>
+            </li>
+            
+            <li class="class-item">
+                <a href="#clients_web_search_client_WebSearchClient" class="class-link" data-target="clients_web_search_client_WebSearchClient">
+                    <i class="fas fa-cube"></i> WebSearchClient
+                </a>
+            </li>
+            
+            </ul>
+        </li>
+        
+        <li class="folder">
+            <span class="folder-name"><i class="fas fa-folder"></i> models</span>
+            <ul class="tree">
+        
+            <li class="class-item">
+                <a href="#models_content_analysis_report_ContentAnalysisReport" class="class-link" data-target="models_content_analysis_report_ContentAnalysisReport">
+                    <i class="fas fa-cube"></i> ContentAnalysisReport
+                </a>
+            </li>
+            
+            <li class="class-item">
+                <a href="#models_fact_check_result_FactCheckResult" class="class-link" data-target="models_fact_check_result_FactCheckResult">
+                    <i class="fas fa-cube"></i> FactCheckResult
+                </a>
+            </li>
+            
+            <li class="class-item">
+                <a href="#models_fact_claim_FactClaim" class="class-link" data-target="models_fact_claim_FactClaim">
+                    <i class="fas fa-cube"></i> FactClaim
+                </a>
+            </li>
+            
+            <li class="class-item">
+                <a href="#models_search_result_SearchResult" class="class-link" data-target="models_search_result_SearchResult">
+                    <i class="fas fa-cube"></i> SearchResult
+                </a>
+            </li>
+            
+            </ul>
+        </li>
+        </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <header>
+                <h1>AIvidence Documentation</h1>
+                <p>AI-powered fact checking tool for fighting misinformation</p>
+            </header>
+    
+            <div id="core_fact_check_engine" class="module">
+                <div class="module-header">
+                    <h2>fact_check_engine</h2>
+                </div>
+                <div class="module-content">
+                    <div class='description'>FactCheckEngine for analyzing content and checking its factual accuracy.</div>
+            
+                <div id="core_fact_check_engine_FactCheckEngine" class="class">
+                    <div class="class-header">
+                        <span>FactCheckEngine</span>
+                        <span class="class-badge">Class</span>
+                    </div>
+                    <div class="class-content">
+                        <div class='description'>Main engine for analyzing content and checking its factual accuracy.
+Orchestrates the full pipeline from content retrieval to final report generation.</div>
+                        
+                
+                    <div class="method">
+                        <div class="method-header">
+                            <span>__init__</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> __init__(<span class="param">self</span>, <span class="param">model_name: str = 'gpt-4o-mini'</span>, <span class="param">api_key: Optional[str] = None</span>, <span class="param">base_url: Optional[str] = None</span>, <span class="param">verbose: bool = False</span>, <span class="param">brave_api_key: str = 'your_brave_search_key_here'</span>):</div>
+                            <div class='description'>Initialize the fact check engine.</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                        <tr>
+                            <td><code>model_name</code></td>
+                            <td>Name of the LLM to use</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><code>api_key</code></td>
+                            <td>API key for the language model</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><code>base_url</code></td>
+                            <td>Base URL for the language model (for Ollama models)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><code>verbose</code></td>
+                            <td>Whether to enable verbose logging</td>
+                        </tr>
+                        
+                <tr>
+                    <td><code>brave_api_key</code></td>
+                    <td>API key for Brave Search</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    <div class="method">
+                        <div class="method-header">
+                            <span>analyze_content</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> analyze_content(<span class="param">self</span>, <span class="param">source: str</span>, <span class="param">source_type: Optional[str] = None</span>, <span class="param">max_claims: int = 5</span>) -> aividence.models.content_analysis_report.ContentAnalysisReport:</div>
+                            <div class='description'>Analyze content from a URL or HTML file for misinformation.
+
+
+    ContentAnalysisReport with analysis details</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                        <tr>
+                            <td><code>source</code></td>
+                            <td>Source of content (URL or file path)</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><code>source_type</code></td>
+                            <td>Type of source ('url' or 'file'). If None, type is auto-detected.</td>
+                        </tr>
+                        
+                <tr>
+                    <td><code>max_claims</code></td>
+                    <td>Maximum number of claims to verify</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="returns">
+                <h4>Returns</h4>
+                <p>ContentAnalysisReport with analysis details</p>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    <div class="method">
+                        <div class="method-header">
+                            <span>analyze_website</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> analyze_website(<span class="param">self</span>, <span class="param">url: str</span>, <span class="param">max_claims: int = 5</span>) -> aividence.models.content_analysis_report.ContentAnalysisReport:</div>
+                            <div class='description'>Legacy method to maintain backward compatibility.
+
+
+    ContentAnalysisReport with analysis details</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                        <tr>
+                            <td><code>url</code></td>
+                            <td>Website URL to analyze</td>
+                        </tr>
+                        
+                <tr>
+                    <td><code>max_claims</code></td>
+                    <td>Maximum number of claims to verify</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="returns">
+                <h4>Returns</h4>
+                <p>ContentAnalysisReport with analysis details</p>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            
+            <div id="agents_domain_analyzer" class="module">
+                <div class="module-header">
+                    <h2>domain_analyzer</h2>
+                </div>
+                <div class="module-content">
+                    <div class='description'>DomainAnalyzer agent for analyzing website domains and content topics.</div>
+            
+                <div id="agents_domain_analyzer_DomainAnalyzer" class="class">
+                    <div class="class-header">
+                        <span>DomainAnalyzer</span>
+                        <span class="class-badge">Class</span>
+                    </div>
+                    <div class="class-content">
+                        <div class='description'>Agent for analyzing website domains and determining their topics,
+required expertise, and verification strategies.</div>
+                        
+                
+                    <div class="method">
+                        <div class="method-header">
+                            <span>__init__</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> __init__(<span class="param">self</span>, <span class="param">model_client: aividence.clients.model_client.ModelClient</span>, <span class="param">verbose: bool = False</span>):</div>
+                            <div class='description'>Initialize the domain analyzer.</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                        <tr>
+                            <td><code>model_client</code></td>
+                            <td>ModelClient instance for querying language models</td>
+                        </tr>
+                        
+                <tr>
+                    <td><code>verbose</code></td>
+                    <td>Whether to enable verbose logging</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    <div class="method">
+                        <div class="method-header">
+                            <span>analyze_domain</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> analyze_domain(<span class="param">self</span>, <span class="param">url: str</span>, <span class="param">content: str</span>) -> Dict[str</span>, <span class="param">Any]:</div>
+                            <div class='description'>Analyze the website domain and determine its topic, expertise required, and what to verify.
+
+
+    Dictionary with domain analysis results</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                        <tr>
+                            <td><code>url</code></td>
+                            <td>Website URL</td>
+                        </tr>
+                        
+                <tr>
+                    <td><code>content</code></td>
+                    <td>Website content</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="returns">
+                <h4>Returns</h4>
+                <p>Dictionary with domain analysis results</p>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            
+            <div id="agents_claim_extractor" class="module">
+                <div class="module-header">
+                    <h2>claim_extractor</h2>
+                </div>
+                <div class="module-content">
+                    <div class='description'>ClaimExtractor agent for extracting verifiable claims from content.</div>
+            
+                <div id="agents_claim_extractor_ClaimExtractor" class="class">
+                    <div class="class-header">
+                        <span>ClaimExtractor</span>
+                        <span class="class-badge">Class</span>
+                    </div>
+                    <div class="class-content">
+                        <div class='description'>Agent for extracting verifiable factual claims from website content.</div>
+                        
+                
+                    <div class="method">
+                        <div class="method-header">
+                            <span>__init__</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> __init__(<span class="param">self</span>, <span class="param">model_client: aividence.clients.model_client.ModelClient</span>, <span class="param">verbose: bool = False</span>):</div>
+                            <div class='description'>Initialize the claim extractor.</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                        <tr>
+                            <td><code>model_client</code></td>
+                            <td>ModelClient instance for querying language models</td>
+                        </tr>
+                        
+                <tr>
+                    <td><code>verbose</code></td>
+                    <td>Whether to enable verbose logging</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    <div class="method">
+                        <div class="method-header">
+                            <span>extract_claims</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> extract_claims(<span class="param">self</span>, <span class="param">content: str</span>, <span class="param">domain_analysis: Dict[str</span>, <span class="param">Any]</span>, <span class="param">max_claims: int = 10</span>) -> List[aividence.models.fact_claim.FactClaim]:</div>
+                            <div class='description'>Extract verifiable claims from the website content.
+
+
+    List of FactClaim objects</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                        <tr>
+                            <td><code>content</code></td>
+                            <td>Website content</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><code>domain_analysis</code></td>
+                            <td>Results from domain analysis</td>
+                        </tr>
+                        
+                <tr>
+                    <td><code>max_claims</code></td>
+                    <td>Maximum number of claims to extract</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="returns">
+                <h4>Returns</h4>
+                <p>List of FactClaim objects</p>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            
+            <div id="agents_claim_verifier" class="module">
+                <div class="module-header">
+                    <h2>claim_verifier</h2>
+                </div>
+                <div class="module-content">
+                    <div class='description'>ClaimVerifier agent for verifying factual claims using web search.</div>
+            
+                <div id="agents_claim_verifier_ClaimVerifier" class="class">
+                    <div class="class-header">
+                        <span>ClaimVerifier</span>
+                        <span class="class-badge">Class</span>
+                    </div>
+                    <div class="class-content">
+                        <div class='description'>Agent for verifying factual claims by searching for evidence and analyzing results.</div>
+                        
+                
+                    <div class="method">
+                        <div class="method-header">
+                            <span>__init__</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> __init__(<span class="param">self</span>, <span class="param">model_client: aividence.clients.model_client.ModelClient</span>, <span class="param">search_client: aividence.clients.web_search_client.WebSearchClient</span>, <span class="param">verbose: bool = False</span>):</div>
+                            <div class='description'>Initialize the claim verifier.</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                        <tr>
+                            <td><code>model_client</code></td>
+                            <td>ModelClient instance for querying language models</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><code>search_client</code></td>
+                            <td>WebSearchClient instance for searching the web</td>
+                        </tr>
+                        
+                <tr>
+                    <td><code>verbose</code></td>
+                    <td>Whether to enable verbose logging</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    <div class="method">
+                        <div class="method-header">
+                            <span>verify_claim</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> verify_claim(<span class="param">self</span>, <span class="param">claim: aividence.models.fact_claim.FactClaim</span>, <span class="param">domain_analysis: Dict[str</span>, <span class="param">Any]</span>) -> aividence.models.fact_check_result.FactCheckResult:</div>
+                            <div class='description'>Verify a single claim by searching for evidence and analyzing results.
+
+
+    FactCheckResult with the verification details</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                        <tr>
+                            <td><code>claim</code></td>
+                            <td>The claim to verify</td>
+                        </tr>
+                        
+                <tr>
+                    <td><code>domain_analysis</code></td>
+                    <td>Domain analysis results for context</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="returns">
+                <h4>Returns</h4>
+                <p>FactCheckResult with the verification details</p>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            
+            <div id="clients_content_scraper" class="module">
+                <div class="module-header">
+                    <h2>content_scraper</h2>
+                </div>
+                <div class="module-content">
+                    <div class='description'>ContentScraper client for loading content from websites or HTML files.</div>
+            
+                <div id="clients_content_scraper_ContentScraper" class="class">
+                    <div class="class-header">
+                        <span>ContentScraper</span>
+                        <span class="class-badge">Class</span>
+                    </div>
+                    <div class="class-content">
+                        <div class='description'>A class to load website content from URLs or HTML files using multiple fallback methods.</div>
+                        
+                
+                    <div class="method">
+                        <div class="method-header">
+                            <span>__init__</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> __init__(<span class="param">self</span>, <span class="param">user_agent=None</span>, <span class="param">timeout=30</span>, <span class="param">verbose=False</span>):</div>
+                            <div class='description'>Initialize the scraper with configurable parameters.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="method">
+                        <div class="method-header">
+                            <span>load_content</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> load_content(<span class="param">self</span>, <span class="param">source</span>, <span class="param">source_type=None</span>):</div>
+                            <div class='description'>Load content from either a website URL or an HTML file.
+
+
+    str: The website content as text
+
+Raises:
+    ValueError: If the content could not be loaded after all attempts</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                        <tr>
+                            <td><code>source</code></td>
+                            <td>The URL of the website or path to HTML file</td>
+                        </tr>
+                        
+                <tr>
+                    <td><code>source_type</code></td>
+                    <td>Optional type specifier ('url' or 'file'). If None, type is auto-detected.</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="returns">
+                <h4>Returns</h4>
+                <p>str: The website content as text</p>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    <div class="method">
+                        <div class="method-header">
+                            <span>load_website_content</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> load_website_content(<span class="param">self</span>, <span class="param">url</span>):</div>
+                            <div class='description'>Legacy method to maintain backward compatibility.
+
+
+    str: The website content as text</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                <tr>
+                    <td><code>url</code></td>
+                    <td>The URL of the website to load</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="returns">
+                <h4>Returns</h4>
+                <p>str: The website content as text</p>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            
+            <div id="clients_model_client" class="module">
+                <div class="module-header">
+                    <h2>model_client</h2>
+                </div>
+                <div class="module-content">
+                    <div class='description'>ModelClient for handling interactions with language models.</div>
+            
+                <div id="clients_model_client_ModelClient" class="class">
+                    <div class="class-header">
+                        <span>ModelClient</span>
+                        <span class="class-badge">Class</span>
+                    </div>
+                    <div class="class-content">
+                        <div class='description'>A wrapper class to handle interactions with different language models.
+Supports OpenAI, Anthropic, and Ollama models.</div>
+                        
+                
+                    <div class="method">
+                        <div class="method-header">
+                            <span>__init__</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> __init__(<span class="param">self</span>, <span class="param">model_name: str</span>, <span class="param">api_key: Optional[str] = None</span>, <span class="param">base_url: Optional[str] = None</span>, <span class="param">verbose: bool = False</span>):</div>
+                            <div class='description'>Initialize the model client.</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                        <tr>
+                            <td><code>model_name</code></td>
+                            <td>Name of the model to use</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><code>api_key</code></td>
+                            <td>API key for the model service</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><code>base_url</code></td>
+                            <td>Base URL for the model service (used with Ollama models)</td>
+                        </tr>
+                        
+                <tr>
+                    <td><code>verbose</code></td>
+                    <td>Whether to enable verbose logging</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    <div class="method">
+                        <div class="method-header">
+                            <span>run</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> run(<span class="param">self</span>, <span class="param">prompt: str</span>, <span class="param">system_prompt: Optional[str] = None</span>) -> str:</div>
+                            <div class='description'>Run a chat completion.
+
+
+    The model's response as a string</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                        <tr>
+                            <td><code>prompt</code></td>
+                            <td>The user prompt to send to the model</td>
+                        </tr>
+                        
+                <tr>
+                    <td><code>system_prompt</code></td>
+                    <td>Optional system prompt to set context</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="returns">
+                <h4>Returns</h4>
+                <p>The model's response as a string</p>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            
+            <div id="clients_web_search_client" class="module">
+                <div class="module-header">
+                    <h2>web_search_client</h2>
+                </div>
+                <div class="module-content">
+                    <div class='description'>WebSearchClient for searching the web using Brave Search API.</div>
+            
+                <div id="clients_web_search_client_WebSearchClient" class="class">
+                    <div class="class-header">
+                        <span>WebSearchClient</span>
+                        <span class="class-badge">Class</span>
+                    </div>
+                    <div class="class-content">
+                        <div class='description'>Tool for searching the web using Brave Search API with direct HTTP requests</div>
+                        
+                
+                    <div class="method">
+                        <div class="method-header">
+                            <span>__init__</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> __init__(<span class="param">self</span>, <span class="param">api_key: str</span>, <span class="param">max_results: int = 5</span>, <span class="param">verbose: bool = False</span>, <span class="param">timeout: int = 10</span>, <span class="param">max_retries: int = 3</span>, <span class="param">retry_delay: int = 10</span>):</div>
+                            <div class='description'>Initialize the web search client.</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                        <tr>
+                            <td><code>api_key</code></td>
+                            <td>Brave Search API key</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><code>max_results</code></td>
+                            <td>Maximum number of results to return</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><code>verbose</code></td>
+                            <td>Whether to enable verbose logging</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><code>timeout</code></td>
+                            <td>Request timeout in seconds</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><code>max_retries</code></td>
+                            <td>Maximum number of retry attempts</td>
+                        </tr>
+                        
+                <tr>
+                    <td><code>retry_delay</code></td>
+                    <td>Delay between retries in seconds</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    <div class="method">
+                        <div class="method-header">
+                            <span>search</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> search(<span class="param">self</span>, <span class="param">query: str</span>) -> List[aividence.models.search_result.SearchResult]:</div>
+                            <div class='description'>Perform a search using Brave Search API with timeout handling and retries.
+
+
+    List of SearchResult objects</div>
+            <div class="param-table">
+                <h4>Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            
+                <tr>
+                    <td><code>query</code></td>
+                    <td>Search query string</td>
+                </tr>
+                
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="returns">
+                <h4>Returns</h4>
+                <p>List of SearchResult objects</p>
+            </div>
+            
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            
+            <div id="models_fact_claim" class="module">
+                <div class="module-header">
+                    <h2>fact_claim</h2>
+                </div>
+                <div class="module-content">
+                    <div class='description'>FactClaim model for representing claims to be verified.</div>
+            
+                <div id="models_fact_claim_FactClaim" class="class">
+                    <div class="class-header">
+                        <span>FactClaim</span>
+                        <span class="class-badge">Class</span>
+                    </div>
+                    <div class="class-content">
+                        <div class='description'>A factual claim extracted from content that needs verification.
+
+Attributes:
+    id: Unique identifier for the claim
+    claim: The actual claim text
+    topic: Topic category of the claim
+    keywords: List of keywords relevant to the claim
+    importance: Importance score of the claim (1-10)</div>
+                        
+                    <div class="parent-class">
+                        <span>Inherits from: BaseModel</span>
+                    </div>
+                    
+                
+                    <div class="method">
+                        <div class="method-header">
+                            <span>__init__</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> __init__(<span class="param">self</span>, <span class="param">/</span>, <span class="param">**data: 'Any'</span>) -> 'None':</div>
+                            <div class='description'>Create a new model by parsing and validating input data from keyword arguments.
+
+Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.
+
+`self` is explicitly positional-only to allow `self` as a field name.</div>
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            
+            <div id="models_search_result" class="module">
+                <div class="module-header">
+                    <h2>search_result</h2>
+                </div>
+                <div class="module-content">
+                    <div class='description'>SearchResult model for representing search results.</div>
+            
+                <div id="models_search_result_SearchResult" class="class">
+                    <div class="class-header">
+                        <span>SearchResult</span>
+                        <span class="class-badge">Class</span>
+                    </div>
+                    <div class="class-content">
+                        <div class='description'>Represents a search result from a web search.
+
+Attributes:
+    title: Title of the search result
+    body: Body text or description of the search result
+    url: URL of the search result
+    source: Source domain of the search result</div>
+                        
+                
+                    <div class="method">
+                        <div class="method-header">
+                            <span>__init__</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> __init__(<span class="param">self</span>, <span class="param">title: str</span>, <span class="param">body: str</span>, <span class="param">url: str</span>, <span class="param">source: str</span>):</div>
+                            <div class='description'>Initialize self.  See help(type(self)) for accurate signature.</div>
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            
+            <div id="models_fact_check_result" class="module">
+                <div class="module-header">
+                    <h2>fact_check_result</h2>
+                </div>
+                <div class="module-content">
+                    <div class='description'>FactCheckResult model for representing verification results.</div>
+            
+                <div id="models_fact_check_result_FactCheckResult" class="class">
+                    <div class="class-header">
+                        <span>FactCheckResult</span>
+                        <span class="class-badge">Class</span>
+                    </div>
+                    <div class="class-content">
+                        <div class='description'>Represents the result of verifying a factual claim.
+
+Attributes:
+    claim_id: ID of the claim being verified
+    claim: The claim text
+    score: Truthfulness score (0-5, where 0 is completely false and 5 is completely true)
+    confidence: Confidence in the verification (0-1)
+    evidence: List of evidence supporting the verification
+    contradictions: List of evidence contradicting the claim
+    sources: List of sources used for verification
+    search_queries: List of search queries used for verification
+    explanation: Explanation of the verification result
+    is_recent_news: Flag indicating if the claim is about very recent events</div>
+                        
+                    <div class="parent-class">
+                        <span>Inherits from: BaseModel</span>
+                    </div>
+                    
+                
+                    <div class="method">
+                        <div class="method-header">
+                            <span>__init__</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> __init__(<span class="param">self</span>, <span class="param">/</span>, <span class="param">**data: 'Any'</span>) -> 'None':</div>
+                            <div class='description'>Create a new model by parsing and validating input data from keyword arguments.
+
+Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.
+
+`self` is explicitly positional-only to allow `self` as a field name.</div>
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            
+            <div id="models_content_analysis_report" class="module">
+                <div class="module-header">
+                    <h2>content_analysis_report</h2>
+                </div>
+                <div class="module-content">
+                    <div class='description'>ContentAnalysisReport model for representing the final analysis results.</div>
+            
+                <div id="models_content_analysis_report_ContentAnalysisReport" class="class">
+                    <div class="class-header">
+                        <span>ContentAnalysisReport</span>
+                        <span class="class-badge">Class</span>
+                    </div>
+                    <div class="class-content">
+                        <div class='description'>The complete analysis report for a website or content source.
+
+Attributes:
+    url: URL of the analyzed content
+    domain: Domain name of the content source
+    topic: Main topic of the content
+    domain_expertise_required: List of expertise domains required to verify the content
+    overall_score: Overall truthfulness score of the content (0-5)
+    claims: List of factual claims extracted from the content
+    verification_results: List of verification results for the claims
+    summary: Summary of the analysis
+    recommendations: List of recommendations for the reader
+    analysis_date: Date when the analysis was performed</div>
+                        
+                    <div class="parent-class">
+                        <span>Inherits from: BaseModel</span>
+                    </div>
+                    
+                
+                    <div class="method">
+                        <div class="method-header">
+                            <span>__init__</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> __init__(<span class="param">self</span>, <span class="param">/</span>, <span class="param">**data: 'Any'</span>) -> 'None':</div>
+                            <div class='description'>Create a new model by parsing and validating input data from keyword arguments.
+
+Raises [`ValidationError`][pydantic_core.ValidationError] if the input data cannot be
+validated to form a valid model.
+
+`self` is explicitly positional-only to allow `self` as a field name.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="method">
+                        <div class="method-header">
+                            <span>to_markdown_report</span>
+                            <span class="method-type">Method</span>
+                        </div>
+                        <div class="method-content">
+                            <div class="signature"><span class="keyword">def</span> to_markdown_report(<span class="param">self</span>) -> str:</div>
+                            <div class='description'>Generate a markdown report from the analysis results.</div>
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            
+        <a href="#" class="back-to-top" id="back-to-top">
+            <i class="fas fa-arrow-up"></i>
+        </a>
+    
+            <footer>
+                <p>AIvidence © 2025 - Documentation generated on 2025-05-07 12:03:23</p>
+            </footer>
+        </div>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Folder expand/collapse functionality
+                const folders = document.querySelectorAll('.folder > .folder-name');
+                folders.forEach(folder => {
+                    folder.addEventListener('click', function() {
+                        const folderItem = this.parentElement;
+                        const subTree = folderItem.querySelector('.tree');
+                        if (subTree) {
+                            subTree.style.display = subTree.style.display === 'none' ? 'block' : 'none';
+                            
+                            // Toggle folder icon
+                            const icon = this.querySelector('i');
+                            if (icon.classList.contains('fa-folder')) {
+                                icon.classList.remove('fa-folder');
+                                icon.classList.add('fa-folder-open');
+                            } else {
+                                icon.classList.remove('fa-folder-open');
+                                icon.classList.add('fa-folder');
+                            }
+                        }
+                    });
+                });
+                
+                // Highlight active class
+                const classLinks = document.querySelectorAll('.class-link');
+                
+                function setActiveClass() {
+                    const hash = window.location.hash.substring(1);
+                    
+                    classLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('data-target') === hash) {
+                            link.classList.add('active');
+                            
+                            // Expand parent folders
+                            let parent = link.parentElement;
+                            while (parent) {
+                                if (parent.classList.contains('folder')) {
+                                    const subTree = parent.querySelector('.tree');
+                                    if (subTree) {
+                                        subTree.style.display = 'block';
+                                        
+                                        // Update folder icon
+                                        const icon = parent.querySelector('.folder-name i');
+                                        if (icon && icon.classList.contains('fa-folder')) {
+                                            icon.classList.remove('fa-folder');
+                                            icon.classList.add('fa-folder-open');
+                                        }
+                                    }
+                                }
+                                parent = parent.parentElement;
+                            }
+                        }
+                    });
+                }
+                
+                window.addEventListener('hashchange', setActiveClass);
+                setActiveClass();
+                
+                // Search functionality
+                const searchInput = document.getElementById('search-input');
+                const classElements = document.querySelectorAll('.class');
+                
+                searchInput.addEventListener('input', function() {
+                    const searchTerm = this.value.toLowerCase();
+                    
+                    if (searchTerm.length < 2) {
+                        // Show all classes if search term is too short
+                        classElements.forEach(cls => {
+                            cls.style.display = 'block';
+                        });
+                        
+                        // Also show all modules
+                        document.querySelectorAll('.module').forEach(module => {
+                            module.style.display = 'block';
+                        });
+                        
+                        return;
+                    }
+                    
+                    // Filter classes based on search term
+                    classElements.forEach(cls => {
+                        const classText = cls.textContent.toLowerCase();
+                        const classId = cls.id.toLowerCase();
+                        
+                        if (classText.includes(searchTerm) || classId.includes(searchTerm)) {
+                            cls.style.display = 'block';
+                            
+                            // Show parent module
+                            let parent = cls.parentElement;
+                            while (parent) {
+                                if (parent.classList.contains('module')) {
+                                    parent.style.display = 'block';
+                                    break;
+                                }
+                                parent = parent.parentElement;
+                            }
+                        } else {
+                            cls.style.display = 'none';
+                        }
+                    });
+                    
+                    // Hide modules with no visible classes
+                    document.querySelectorAll('.module').forEach(module => {
+                        const visibleClasses = module.querySelectorAll('.class[style="display: block;"]');
+                        if (visibleClasses.length === 0) {
+                            module.style.display = 'none';
+                        }
+                    });
+                });
+                
+                // Expand all folders initially
+                document.querySelectorAll('.folder > .tree').forEach(tree => {
+                    tree.style.display = 'block';
+                });
+                
+                // Update folder icons to show as open initially
+                document.querySelectorAll('.folder-name > i.fa-folder').forEach(icon => {
+                    icon.classList.remove('fa-folder');
+                    icon.classList.add('fa-folder-open');
+                });
+                
+                // Back to top button functionality
+                const backToTopButton = document.getElementById('back-to-top');
+                
+                // Show/hide back to top button based on scroll position
+                window.addEventListener('scroll', function() {
+                    if (window.pageYOffset > 300) {
+                        backToTopButton.classList.add('visible');
+                    } else {
+                        backToTopButton.classList.remove('visible');
+                    }
+                });
+                
+                // Smooth scroll to top when button is clicked
+                backToTopButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            });
+        </script>
+    </body>
+    </html>
+    
